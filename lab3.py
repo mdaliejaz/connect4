@@ -150,6 +150,7 @@ ab_iterative_player = lambda board: \
                         eval_fn=focused_evaluate, timeout=5)
 # run_game(human_player, alphabeta_player)
 run_game(alphabeta_player, basic_player)
+# run_game(alphabeta_player, basic_player, ConnectFourBoard(6))
 
 ## Finally, come up with a better evaluation function than focused-evaluate.
 ## By providing a different function, you should be able to beat

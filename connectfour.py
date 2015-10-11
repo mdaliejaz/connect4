@@ -84,7 +84,7 @@ class ConnectFourBoard(object):
                                    1: 'X',
                                    2: 'O' }
     
-    def __init__(self, board_array = None, board_already_won = None, modified_column = None, current_player = 1, previous_move = -1):
+    def __init__(self, k = 4, board_array = None, board_already_won = None, modified_column = None, current_player = 1, previous_move = -1):
         """ Create a new ConnectFourBoard
 
         If board_array is specified, it should be an MxN matrix of iterables
@@ -109,6 +109,7 @@ class ConnectFourBoard(object):
             # Make sure we're storing tuples, so that they're immutable
             self._board_array = tuple( map(tuple, board_array) )
 
+        self._k = k
         #if board_already_won:
         #    self._is_win = board_already_won
         #elif modified_column:
@@ -128,10 +129,14 @@ class ConnectFourBoard(object):
             return 2
         else:
             return 1
-        
+
     def get_board_array(self):
         """ Return the board array representing this board (as a tuple of tuples) """
         return self._board_array
+
+    def get_k_value(self):
+        """ Return the k value representing k in connect-k game """
+        return self._k
 
     def get_top_elt_in_column(self, column):
         """
@@ -183,11 +188,11 @@ class ConnectFourBoard(object):
         # Re-immutablize the board
         new_board = tuple( map(tuple, new_board) )
 
-        return ConnectFourBoard(new_board, board_already_won=self.is_win(), modified_column=column, current_player = self.get_other_player_id())
+        return ConnectFourBoard(self.get_k_value(), new_board, board_already_won=self.is_win(), modified_column=column, current_player = self.get_other_player_id())
 
     def _is_win_from_cell(self, row, col):
         """ Determines if there is a winning set of four connected nodes containing the specified cell """
-        return ( self._max_length_from_cell(row, col) >= 4 )
+        return ( self._max_length_from_cell(row, col) >= self.get_k_value() )
         
     def _max_length_from_cell(self, row, col):
         """ Return the max-length chain containing this cell """
@@ -315,7 +320,7 @@ class ConnectFourBoard(object):
 
     def clone(self):
         """ Return a duplicate of this board object """
-        return ConnectFourBoard(self._board_array, board_already_won=self._is_win, current_player = self.get_current_player_id())
+        return ConnectFourBoard(self.get_k_value(), self._board_array, board_already_won=self._is_win, current_player = self.get_current_player_id())
 
     def num_tokens_on_board(self):
         """
