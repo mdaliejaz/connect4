@@ -154,7 +154,7 @@ class count_runs(object):
     
 # Some sample boards, useful for testing:
 # Obvious win
-WINNING_BOARD = ConnectFourBoard(board_array =
+WINNING_BOARD = ConnectFourBoard(4, False, board_array =
                                  ( ( 0,0,0,0,0,0,0 ),
                                    ( 0,0,0,0,0,0,0 ),
                                    ( 0,0,0,0,0,0,0 ),
@@ -165,7 +165,7 @@ WINNING_BOARD = ConnectFourBoard(board_array =
                                  current_player = 1)
 
 # 2 can win, but 1 can win a lot more easily
-BARELY_WINNING_BOARD = ConnectFourBoard(board_array =
+BARELY_WINNING_BOARD = ConnectFourBoard(4, False, board_array =
                                         ( ( 0,0,0,0,0,0,0 ),
                                           ( 0,0,0,0,0,0,0 ),
                                           ( 0,0,0,0,0,0,0 ),
@@ -175,7 +175,7 @@ BARELY_WINNING_BOARD = ConnectFourBoard(board_array =
                                           ),
                                         current_player = 2)
 
-BASIC_STARTING_BOARD_1 = ConnectFourBoard(board_array =
+BASIC_STARTING_BOARD_1 = ConnectFourBoard(4, False, board_array =
                                           ( ( 0,0,0,0,0,0,0 ),
                                             ( 0,0,0,0,0,0,0 ),
                                             ( 0,0,0,0,0,0,0 ),
@@ -185,7 +185,7 @@ BASIC_STARTING_BOARD_1 = ConnectFourBoard(board_array =
                                             ),
                                           current_player = 1)
 
-BASIC_STARTING_BOARD_2 = ConnectFourBoard(board_array =
+BASIC_STARTING_BOARD_2 = ConnectFourBoard(4, False, board_array =
                                           ( ( 0,0,0,0,0,0,0 ),
                                             ( 0,0,0,0,0,0,0 ),
                                             ( 0,0,0,0,0,0,0 ),

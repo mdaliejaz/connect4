@@ -84,7 +84,7 @@ class ConnectFourBoard(object):
                                    1: 'X',
                                    2: 'O' }
     
-    def __init__(self, k = 4, board_array = None, board_already_won = None, modified_column = None, current_player = 1, previous_move = -1):
+    def __init__(self, k = 4, longest_streak_game = False, board_array = None, board_already_won = None, modified_column = None, current_player = 1, previous_move = -1):
         """ Create a new ConnectFourBoard
 
         If board_array is specified, it should be an MxN matrix of iterables
@@ -110,11 +110,13 @@ class ConnectFourBoard(object):
             self._board_array = tuple( map(tuple, board_array) )
 
         self._k = k
+        self._longest_streak_game = longest_streak_game
         #if board_already_won:
         #    self._is_win = board_already_won
         #elif modified_column:
         #    self._is_win = self._is_win_from_cell(self.get_height_of_column(modified_column), modified_column)
         #else:
+
         self._is_win = self.is_win()
             
         self.current_player = current_player
@@ -137,6 +139,10 @@ class ConnectFourBoard(object):
     def get_k_value(self):
         """ Return the k value representing k in connect-k game """
         return self._k
+
+    def is_longest_streak_game(self):
+        """ Return the k value representing k in connect-k game """
+        return self._longest_streak_game
 
     def get_top_elt_in_column(self, column):
         """
@@ -188,11 +194,11 @@ class ConnectFourBoard(object):
         # Re-immutablize the board
         new_board = tuple( map(tuple, new_board) )
 
-        return ConnectFourBoard(self.get_k_value(), new_board, board_already_won=self.is_win(), modified_column=column, current_player = self.get_other_player_id())
+        return ConnectFourBoard(self.get_k_value(), self.is_longest_streak_game(), new_board, board_already_won=self.is_win(), modified_column=column, current_player = self.get_other_player_id())
 
-    def _is_win_from_cell(self, row, col):
+    def _is_win_from_cell(self, row, col, k_value):
         """ Determines if there is a winning set of four connected nodes containing the specified cell """
-        return ( self._max_length_from_cell(row, col) >= self.get_k_value() )
+        return ( self._max_length_from_cell(row, col) >= k_value)
         
     def _max_length_from_cell(self, row, col):
         """ Return the max-length chain containing this cell """
@@ -299,14 +305,32 @@ class ConnectFourBoard(object):
         #if hasattr(self, "_is_win"):
         #    return self._is_win
         #else:
-        for i in xrange(self.board_height):
-            for j in xrange(self.board_width):
-                cell_player = self.get_cell(i,j)
-                if cell_player != 0:
-                    win = self._is_win_from_cell(i,j)
-                    if win:
-                        self._is_win = win
-                        return cell_player
+        if self.is_longest_streak_game():
+            token_played = 0
+            for i in xrange(self.board_height):
+                for j in xrange(self.board_width):
+                    cell_player = self.get_cell(i,j)
+                    if cell_player != 0:
+                        token_played += 1
+            if token_played == 20:
+                for i in xrange(self.board_height):
+                    for j in xrange(self.board_width):
+                        cell_player = self.get_cell(i,j)
+                        if cell_player != 0:
+                            for k in xrange(10, -1, -1):
+                                win = self._is_win_from_cell(i,j,k)
+                                if win:
+                                    self._is_win = win
+                                    return cell_player
+        else:
+            for i in xrange(self.board_height):
+                for j in xrange(self.board_width):
+                    cell_player = self.get_cell(i,j)
+                    if cell_player != 0:
+                        win = self._is_win_from_cell(i,j,self.get_k_value())
+                        if win:
+                            self._is_win = win
+                            return cell_player
 
         return 0
 
@@ -320,7 +344,7 @@ class ConnectFourBoard(object):
 
     def clone(self):
         """ Return a duplicate of this board object """
-        return ConnectFourBoard(self.get_k_value(), self._board_array, board_already_won=self._is_win, current_player = self.get_current_player_id())
+        return ConnectFourBoard(self.get_k_value(), self.is_longest_streak_game(), self._board_array, board_already_won=self._is_win, current_player = self.get_current_player_id())
 
     def num_tokens_on_board(self):
         """

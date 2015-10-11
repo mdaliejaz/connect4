@@ -4,7 +4,7 @@ from time import time
 import tree_searcher
 
 # Obvious win
-WINNING_BOARD = ConnectFourBoard(board_array =
+WINNING_BOARD = ConnectFourBoard(4, False, board_array =
                                  ( ( 0,0,0,0,0,0,0 ),
                                    ( 0,0,0,0,0,0,0 ),
                                    ( 0,0,0,0,0,0,0 ),
@@ -15,7 +15,7 @@ WINNING_BOARD = ConnectFourBoard(board_array =
                                  current_player = 1)
 
 # 2 can win, but 1 can win a lot more easily
-BARELY_WINNING_BOARD = ConnectFourBoard(board_array =
+BARELY_WINNING_BOARD = ConnectFourBoard(4, False, board_array =
                                         ( ( 0,0,0,0,0,0,0 ),
                                           ( 0,0,0,0,0,0,0 ),
                                           ( 0,0,0,0,0,0,0 ),

@@ -149,8 +149,10 @@ ab_iterative_player = lambda board: \
                         search_fn=alpha_beta_search,
                         eval_fn=focused_evaluate, timeout=5)
 # run_game(human_player, alphabeta_player)
+# run_game(new_player, basic_player)
 run_game(alphabeta_player, basic_player)
 # run_game(alphabeta_player, basic_player, ConnectFourBoard(6))
+# run_game(alphabeta_player, basic_player, ConnectFourBoard(None, True))
 
 ## Finally, come up with a better evaluation function than focused-evaluate.
 ## By providing a different function, you should be able to beat
@@ -176,9 +178,9 @@ if False:
                     (0, 2, 1, 2, 1, 2, 0),
                     (2, 1, 2, 1, 1, 1, 0),
                     )
-    test_board_1 = ConnectFourBoard(board_array=board_tuples,
+    test_board_1 = ConnectFourBoard(4, False, board_array=board_tuples,
                                     current_player=1)
-    test_board_2 = ConnectFourBoard(board_array=board_tuples,
+    test_board_2 = ConnectFourBoard(4, False, board_array=board_tuples,
                                     current_player=2)
     # better evaluate from player 1
     print "%s => %s" % (test_board_1, better_evaluate(test_board_1))
