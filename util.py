@@ -3,6 +3,8 @@ from time import time
 from connectfour import ConnectFourBoard
 import tree_searcher
 
+NODES_EXPANDED_BY_MINIMAX = 0
+NODES_EXPANDED_BY_ALPHABETA = 0
 ## Define 'INFINITY' and 'NEG_INFINITY'
 try:
     INFINITY = float("infinity")
@@ -10,6 +12,20 @@ try:
 except ValueError:                 # Windows doesn't support 'float("infinity")'.
     INFINITY = float(1e3000)       # However, '1e3000' will overflow and return
     NEG_INFINITY = float(-1e3000)  # the magic float Infinity value anyway.
+
+def nodeminimax():
+    return NODES_EXPANDED_BY_MINIMAX
+
+def nodealphabeta():
+    return NODES_EXPANDED_BY_ALPHABETA
+
+def setnodealphabeta(value=0):
+    global NODES_EXPANDED_BY_ALPHABETA
+    NODES_EXPANDED_BY_ALPHABETA = value
+
+def setnodeminimax(value=0):
+    global NODES_EXPANDED_BY_MINIMAX
+    NODES_EXPANDED_BY_MINIMAX = value
 
 class ContinuousThread(Thread):
     """

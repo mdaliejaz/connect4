@@ -84,7 +84,6 @@ def focused_evaluate(board):
 quick_to_win_player = lambda board: minimax(board, depth=4,
                                             eval_fn=focused_evaluate)
 
-
 ## You can try out your new evaluation function by uncommenting this line:
 # run_game(basic_player, quick_to_win_player)
 
@@ -104,11 +103,14 @@ def alpha_beta_search(board, depth,
                       get_next_moves_fn=get_all_next_moves,
                       is_terminal_fn=is_terminal):
     game = None
+    global NODES_EXPANDED_BY_ALPHABETA
     for move, new_board in get_next_moves_fn(board):
+        NODES_EXPANDED_BY_ALPHABETA += 1
         score = alphabeta(new_board, depth - 1, eval_fn, get_next_moves_fn, is_terminal_fn, NEG_INFINITY, INFINITY)
         score[0] *= -1
         if game is None or score[0] > game[0]:
             game = [score[0], move]
+    setnodealphabeta(NODES_EXPANDED_BY_ALPHABETA)
     return game[1]
 
 
@@ -117,7 +119,9 @@ def alphabeta(board, depth, eval_fn, get_next_moves_fn, is_terminal_fn, alpha, b
         return [eval_fn(board), None]
 
     score = [NEG_INFINITY, None]
+    global NODES_EXPANDED_BY_ALPHABETA
     for move, new_board in get_next_moves_fn(board):
+        NODES_EXPANDED_BY_ALPHABETA += 1
         child_score = alphabeta(new_board, depth - 1, eval_fn, get_next_moves_fn, is_terminal_fn,
                                 -beta, -alpha)
         child_score[0] *= -1

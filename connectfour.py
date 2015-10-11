@@ -1,7 +1,10 @@
 import unicodedata
 import sys
+import time
+import util
 
 # Python 2.3 compatibiliy with sets
+
 if not 'set' in globals():
     from sets import Set as set
 
@@ -467,6 +470,12 @@ def human_player(board):
         
 def run_game(player1, player2, board = ConnectFourBoard()):
     """ Run a game of Connect Four, with the two specified players """
+    start_time = time.time()
     game = ConnectFourRunner(player1, player2, board=board)
-    return game.run_game()
+    return_val = game.run_game()
+    print("--- Running time = %s seconds ---" % (time.time() - start_time))
+    # print("Node alphabeta = %d" % util.nodealphabeta())
+    # print("Node minimax = %d" % util.nodeminimax())
+    print("Total nodes expanded in game = %d" % (util.nodealphabeta() + util.nodeminimax()))
+    return return_val
     
